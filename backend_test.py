@@ -9,6 +9,7 @@ class FitnessTrackerAPITester:
         self.api_url = f"{base_url}/api"
         self.token = None
         self.user_id = None
+        self.username = None
         self.tests_run = 0
         self.tests_passed = 0
         self.food_items = []
