@@ -370,21 +370,24 @@ const Dashboard = () => {
 
   const logMeal = async (foodItemId, quantity, mealType) => {
     try {
-      await axios.post(`${API}/food/log`, {
+      const response = await axios.post(`${API}/food/log`, {
         food_item_id: foodItemId,
         quantity: parseFloat(quantity),
         meal_type: mealType
       });
-      fetchMealLog();
-      fetchDashboardStats();
+      console.log('Meal logged successfully:', response.data);
+      // Refresh data after successful logging
+      await Promise.all([fetchMealLog(), fetchDashboardStats()]);
+      return { success: true };
     } catch (error) {
       console.error('Failed to log meal:', error);
+      return { success: false, error: error.response?.data?.detail || 'Failed to log meal' };
     }
   };
 
   const logWorkout = async (exerciseId, duration, sets, reps, weight, notes) => {
     try {
-      await axios.post(`${API}/workouts/log`, {
+      const response = await axios.post(`${API}/workouts/log`, {
         exercise_id: exerciseId,
         duration: parseInt(duration),
         sets: sets ? parseInt(sets) : null,
@@ -392,10 +395,13 @@ const Dashboard = () => {
         weight: weight ? parseFloat(weight) : null,
         notes: notes || null
       });
-      fetchWorkoutLog();
-      fetchDashboardStats();
+      console.log('Workout logged successfully:', response.data);
+      // Refresh data after successful logging
+      await Promise.all([fetchWorkoutLog(), fetchDashboardStats()]);
+      return { success: true };
     } catch (error) {
       console.error('Failed to log workout:', error);
+      return { success: false, error: error.response?.data?.detail || 'Failed to log workout' };
     }
   };
 
