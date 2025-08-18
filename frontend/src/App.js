@@ -714,9 +714,10 @@ const Dashboard = () => {
             </div>
             <button
               type="submit"
-              className="bg-blue-600 text-white py-2 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              disabled={loading}
+              className="bg-blue-600 text-white py-2 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
             >
-              Log Workout
+              {loading ? 'Logging...' : 'Log Workout'}
             </button>
           </form>
         </div>
