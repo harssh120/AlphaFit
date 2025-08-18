@@ -483,13 +483,28 @@ const Dashboard = () => {
     const [selectedFood, setSelectedFood] = useState('');
     const [quantity, setQuantity] = useState('');
     const [mealType, setMealType] = useState('breakfast');
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState({ type: '', text: '' });
 
     const handleLogMeal = async (e) => {
       e.preventDefault();
       if (selectedFood && quantity) {
-        await logMeal(selectedFood, quantity, mealType);
-        setSelectedFood('');
-        setQuantity('');
+        setLoading(true);
+        setMessage({ type: '', text: '' });
+        
+        const result = await logMeal(selectedFood, quantity, mealType);
+        
+        if (result.success) {
+          setMessage({ type: 'success', text: 'Meal logged successfully!' });
+          setSelectedFood('');
+          setQuantity('');
+        } else {
+          setMessage({ type: 'error', text: result.error || 'Failed to log meal' });
+        }
+        setLoading(false);
+        
+        // Clear message after 3 seconds
+        setTimeout(() => setMessage({ type: '', text: '' }), 3000);
       }
     };
 
