@@ -606,17 +606,32 @@ const Dashboard = () => {
     const [reps, setReps] = useState('');
     const [weight, setWeight] = useState('');
     const [notes, setNotes] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [message, setMessage] = useState({ type: '', text: '' });
 
     const handleLogWorkout = async (e) => {
       e.preventDefault();
       if (selectedExercise && duration) {
-        await logWorkout(selectedExercise, duration, sets, reps, weight, notes);
-        setSelectedExercise('');
-        setDuration('');
-        setSets('');
-        setReps('');
-        setWeight('');
-        setNotes('');
+        setLoading(true);
+        setMessage({ type: '', text: '' });
+        
+        const result = await logWorkout(selectedExercise, duration, sets, reps, weight, notes);
+        
+        if (result.success) {
+          setMessage({ type: 'success', text: 'Workout logged successfully!' });
+          setSelectedExercise('');
+          setDuration('');
+          setSets('');
+          setReps('');
+          setWeight('');
+          setNotes('');
+        } else {
+          setMessage({ type: 'error', text: result.error || 'Failed to log workout' });
+        }
+        setLoading(false);
+        
+        // Clear message after 3 seconds
+        setTimeout(() => setMessage({ type: '', text: '' }), 3000);
       }
     };
 
