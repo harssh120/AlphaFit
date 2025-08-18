@@ -513,6 +513,15 @@ const Dashboard = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">Log Your Meal</h2>
           <form onSubmit={handleLogMeal} className="space-y-4">
+            {message.text && (
+              <div className={`px-4 py-3 rounded-lg ${
+                message.type === 'success' 
+                  ? 'bg-green-100 border border-green-400 text-green-700' 
+                  : 'bg-red-100 border border-red-400 text-red-700'
+              }`}>
+                {message.text}
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Food Item</label>
