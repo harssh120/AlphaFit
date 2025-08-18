@@ -563,9 +563,10 @@ const Dashboard = () => {
               <div className="flex items-end">
                 <button
                   type="submit"
-                  className="w-full bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700 transition-colors"
+                  disabled={loading}
+                  className="w-full bg-green-600 text-white py-2 rounded-lg font-medium hover:bg-green-700 transition-colors disabled:opacity-50"
                 >
-                  Log Meal
+                  {loading ? 'Logging...' : 'Log Meal'}
                 </button>
               </div>
             </div>
