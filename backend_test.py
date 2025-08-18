@@ -64,9 +64,10 @@ class FitnessTrackerAPITester:
 
     def test_user_registration(self):
         """Test user registration with sample data"""
+        timestamp = datetime.now().strftime("%H%M%S")
         test_user_data = {
-            "username": "testuser",
-            "email": "test@example.com",
+            "username": f"testuser_{timestamp}",
+            "email": f"test_{timestamp}@example.com",
             "password": "TestPass123!",
             "full_name": "Test User",
             "age": 25,
@@ -87,6 +88,7 @@ class FitnessTrackerAPITester:
         if success and 'token' in response:
             self.token = response['token']
             self.user_id = response['user']['id']
+            self.username = test_user_data['username']  # Store for login test
             print(f"   ✅ Token received and stored")
             print(f"   ✅ User ID: {self.user_id}")
             print(f"   ✅ BMI calculated: {response['user']['bmi']}")
@@ -97,7 +99,7 @@ class FitnessTrackerAPITester:
     def test_user_login(self):
         """Test user login"""
         login_data = {
-            "username": "testuser",
+            "username": self.username,
             "password": "TestPass123!"
         }
         
