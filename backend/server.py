@@ -252,7 +252,10 @@ async def register_user(user_data: UserCreate):
     user_dict['password_hash'] = hashed_password
     
     user = User(**user_dict)
-    await db.users.insert_one(user.dict())
+    # Insert user data with password_hash included
+    user_data_with_hash = user.dict()
+    user_data_with_hash['password_hash'] = hashed_password
+    await db.users.insert_one(user_data_with_hash)
     
     # Create JWT token
     token = create_jwt_token(user.id)
